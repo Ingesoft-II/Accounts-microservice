@@ -1,0 +1,29 @@
+# Build
+target/
+*.class
+
+# Secretos y claves (nunca se versionan)
+.env
+.env/*
+*.pem
+keys/
+
+# IDE / editores
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Corchetería local (no es parte del repo)
+meta.xml
+starter.zip
