@@ -4,12 +4,31 @@ server:
 spring:
   application:
     name: cuentas-service
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: true
+  mail:
+    host: localhost
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 management:
   endpoints:
     web:
       exposure:
-        include: health
+            include: health
   endpoint:
     health:
       show-details: never
@@ -19,3 +38,22 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+cuentas:
+  auth:
+    google:
+      mode: real
+    two-factor:
+      ttl-sec: 300
+      max-attempts: 5
+      max-challenges-per-window: 3
+      window-sec: 600
+    refresh:
+      ttl-days: 7
+  jwt:
+    key-path: /keys/private.pem
+    issuer: killer-cuentas
+    audience: killer-api
+    ttl-sec: 900
+  bootstrap:
+    moderator-email: ""

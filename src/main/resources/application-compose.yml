@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/cuentas}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USER:cuentas}
+    password: ${DB_PASSWORD:cuentas_pw}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:rabbitmq}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  mail:
+    host: ${MAIL_HOST:mailhog}
+    port: ${MAIL_PORT:1025}
+
+cuentas:
+  auth:
+    google:
+      mode: ${CUENTAS_AUTH_GOOGLE_MODE:real}
+  jwt:
+    key-path: ${JWT_KEY_PATH:/keys/private.pem}
+  bootstrap:
+    moderator-email: ${BOOTSTRAP_MODERATOR_EMAIL:}
