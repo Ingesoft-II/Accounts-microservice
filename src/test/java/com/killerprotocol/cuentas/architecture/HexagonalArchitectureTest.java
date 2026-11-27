@@ -45,16 +45,14 @@ class HexagonalArchitectureTest {
     void laAplicacionNoDependeDeLosAdaptadoresNiDeInfraestructura() {
         ArchRule regla = noClasses().that().resideInAPackage("..application..")
                 .should().dependOnClassesThat()
-                .resideInAnyPackage(APLICACION_PROHIBIDO)
-                .allowEmptyShould(true);
+                .resideInAnyPackage(APLICACION_PROHIBIDO);
         regla.check(clases);
     }
 
     @Test
     void losServiciosNoTienenAnotacionesDeSpring() {
         ArchRule regla = noClasses().that().haveSimpleNameEndingWith("Service")
-                .should().dependOnClassesThat().resideInAPackage("org.springframework..")
-                .allowEmptyShould(true);
+                .should().dependOnClassesThat().resideInAPackage("org.springframework..");
         regla.check(clases);
     }
 }
