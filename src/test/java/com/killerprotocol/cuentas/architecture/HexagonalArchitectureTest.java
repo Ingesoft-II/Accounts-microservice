@@ -37,8 +37,7 @@ class HexagonalArchitectureTest {
     void elDominioNoDependeDeLasDemasCapasNiDeInfraestructura() {
         ArchRule regla = noClasses().that().resideInAPackage("..domain..")
                 .should().dependOnClassesThat()
-                .resideInAnyPackage(DOMINIO_PROHIBIDO)
-                .allowEmptyShould(true);
+                .resideInAnyPackage(DOMINIO_PROHIBIDO);
         regla.check(clases);
     }
 
