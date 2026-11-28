@@ -13,13 +13,11 @@ import com.killerprotocol.cuentas.application.port.out.RefreshTokenRepository;
 import com.killerprotocol.cuentas.application.port.out.TokenIssuer;
 import com.killerprotocol.cuentas.domain.exception.CuentaNoEncontradaException;
 import com.killerprotocol.cuentas.domain.exception.RefrescoInvalidoException;
+import com.killerprotocol.cuentas.domain.exception.RefrescoReutilizadoException;
 import com.killerprotocol.cuentas.domain.model.Account;
 import com.killerprotocol.cuentas.domain.model.RefreshToken;
 import com.killerprotocol.cuentas.domain.model.Sha256;
 
-/**
- * TODO
- */
 public class RefreshSessionService implements RefreshSessionUseCase {
 
     private final RefreshTokenRepository tokens;
@@ -43,10 +41,17 @@ public class RefreshSessionService implements RefreshSessionUseCase {
         Instant ahora = clock.instant();
         RefreshToken token = tokens.buscarPorHash(Sha256.sha256Hex(refreshToken))
                 .orElseThrow(RefrescoInvalidoException::new);
-        if (token.estaExpirado(ahora) || token.esRevocado()) {
+        if (token.estaExpirado(ahora)) {
             throw new RefrescoInvalidoException();
         }
-        // TODO:
+
+        if (token.esRotado()) {
+            tokens.revocarFamilia(token.familyId());
+            throw new RefrescoReutilizadoException();
+        }
+        if (token.esRevocado()) {
+            throw new RefrescoInvalidoException();
+        }
         token.rotar();
         tokens.guardar(token);
 
