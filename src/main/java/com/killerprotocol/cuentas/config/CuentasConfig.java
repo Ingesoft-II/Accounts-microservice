@@ -8,10 +8,14 @@ import org.springframework.context.annotation.Configuration;
 
 import com.killerprotocol.cuentas.adapter.out.jwt.KeyStore;
 import com.killerprotocol.cuentas.adapter.out.jwt.NimbusTokenIssuer;
+import com.killerprotocol.cuentas.adapter.in.web.HeaderJugadorResolver;
 import com.killerprotocol.cuentas.application.ReglasAuth;
 import com.killerprotocol.cuentas.application.port.in.AuthenticateWithGoogleUseCase;
+import com.killerprotocol.cuentas.application.port.in.GetAccountUseCase;
+import com.killerprotocol.cuentas.application.port.in.ListPublicProfilesUseCase;
 import com.killerprotocol.cuentas.application.port.in.LogoutUseCase;
 import com.killerprotocol.cuentas.application.port.in.RefreshSessionUseCase;
+import com.killerprotocol.cuentas.application.port.in.UpdateProfileUseCase;
 import com.killerprotocol.cuentas.application.port.in.VerifyTwoFactorUseCase;
 import com.killerprotocol.cuentas.application.port.out.AccountRepository;
 import com.killerprotocol.cuentas.application.port.out.ChallengeRepository;
@@ -21,8 +25,11 @@ import com.killerprotocol.cuentas.application.port.out.GoogleIdentityVerifier;
 import com.killerprotocol.cuentas.application.port.out.RefreshTokenRepository;
 import com.killerprotocol.cuentas.application.port.out.TokenIssuer;
 import com.killerprotocol.cuentas.application.service.AuthenticateWithGoogleService;
+import com.killerprotocol.cuentas.application.service.GetAccountService;
+import com.killerprotocol.cuentas.application.service.ListPublicProfilesService;
 import com.killerprotocol.cuentas.application.service.LogoutService;
 import com.killerprotocol.cuentas.application.service.RefreshSessionService;
+import com.killerprotocol.cuentas.application.service.UpdateProfileService;
 import com.killerprotocol.cuentas.application.service.VerifyTwoFactorService;
 
 @Configuration
@@ -91,5 +98,25 @@ public class CuentasConfig {
     @Bean
     public LogoutUseCase logout(RefreshTokenRepository refreshTokens, Clock clock) {
         return new LogoutService(refreshTokens, clock);
+    }
+
+    @Bean
+    public HeaderJugadorResolver headerJugadorResolver() {
+        return new HeaderJugadorResolver();
+    }
+
+    @Bean
+    public GetAccountUseCase getAccount(AccountRepository cuentas) {
+        return new GetAccountService(cuentas);
+    }
+
+    @Bean
+    public UpdateProfileUseCase updateProfile(AccountRepository cuentas) {
+        return new UpdateProfileService(cuentas);
+    }
+
+    @Bean
+    public ListPublicProfilesUseCase listPublicProfiles(AccountRepository cuentas) {
+        return new ListPublicProfilesService(cuentas);
     }
 }

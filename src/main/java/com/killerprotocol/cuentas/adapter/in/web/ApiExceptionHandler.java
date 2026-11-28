@@ -18,6 +18,7 @@ import com.killerprotocol.cuentas.domain.exception.CuentaNoEncontradaException;
 import com.killerprotocol.cuentas.domain.exception.CuentaSuspendidaException;
 import com.killerprotocol.cuentas.domain.exception.DesafioInutilizableException;
 import com.killerprotocol.cuentas.domain.exception.DesafioInutilizableException.Motivo;
+import com.killerprotocol.cuentas.domain.exception.JugadorNoIdentificadoException;
 import com.killerprotocol.cuentas.domain.exception.LimiteDesafiosExcedidoException;
 import com.killerprotocol.cuentas.domain.exception.RefrescoInvalidoException;
 import com.killerprotocol.cuentas.domain.exception.RefrescoReutilizadoException;
@@ -80,6 +81,13 @@ public class ApiExceptionHandler {
                                             HttpServletRequest request) {
         return problema(HttpStatus.NOT_FOUND, "cuenta-no-encontrada",
                 "Cuenta no encontrada", ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(JugadorNoIdentificadoException.class)
+    public ProblemDetail jugadorNoIdentificado(JugadorNoIdentificadoException ex,
+                                               HttpServletRequest request) {
+        return problema(HttpStatus.UNAUTHORIZED, "jugador-no-identificado",
+                "Jugador no identificado", ex.getMessage(), request);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
